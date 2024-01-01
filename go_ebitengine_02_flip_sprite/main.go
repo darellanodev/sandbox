@@ -33,18 +33,18 @@ func (g *Game) Update() error {
 	return nil
 }
 
-func (g *Game) drawNormalImage(screen *ebiten.Image, posX int, posY int) {
+func (g *Game) drawNormalImage(screen *ebiten.Image, img *ebiten.Image, posX int, posY int) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Scale(1, 1)
-	op.GeoM.Translate(float64(posX),float64(posY))
-	screen.DrawImage(imageEmbeddedFile, op)
+	op.GeoM.Translate(float64(posX), float64(posY))
+	screen.DrawImage(img, op)
 }
 
-func (g *Game) drawHorizontalFlippedImage(screen *ebiten.Image, posX int, posY int) {
+func (g *Game) drawHorizontalFlippedImage(screen *ebiten.Image, img *ebiten.Image, imageWidth int, posX int, posY int) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Scale(-1, 1)
-	op.GeoM.Translate(float64(posX) + float64(imageWidth),float64(posY))
-	screen.DrawImage(imageEmbeddedFile, op)
+	op.GeoM.Translate(float64(posX)+float64(imageWidth), float64(posY))
+	screen.DrawImage(img, op)
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
@@ -56,8 +56,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	} else {
 		imagePosX = 0
 	}
-	g.drawNormalImage(screen, imagePosX, imagePosY)
-	g.drawHorizontalFlippedImage(screen, imagePosX, imagePosY + offsetY)
+	g.drawNormalImage(screen, imageEmbeddedFile, imagePosX, imagePosY)
+	g.drawHorizontalFlippedImage(screen, imageEmbeddedFile, imageWidth, imagePosX, imagePosY + offsetY)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
