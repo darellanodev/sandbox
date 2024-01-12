@@ -4,14 +4,12 @@ import (
 	"embed"
 	"image/color"
 	_ "image/png"
-	"io"
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/text"
 	"golang.org/x/image/font"
-	"golang.org/x/image/font/opentype"
 	"golang.org/x/image/font/sfnt"
 )
 
@@ -49,47 +47,10 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 	return 320, 240
 }
 
-
-func loadStaticResource(path string) []byte {
-	file, err := assets.Open(path)
-	if err != nil {
-	  panic(err)
-	}
-	
-	data, err := io.ReadAll(file)
-	if err != nil {
-	  panic(err)
-	}
-
-	return data
-}
-
-func loadFonts() {
-
-	fontBytes := loadStaticResource("assets/fonts/pressstart2p.ttf")
-
-	fontEmbeddedFile, _ = opentype.Parse(fontBytes)
-
-	const dpi = 72
-
-	mplusNormalFont, _ = opentype.NewFace(fontEmbeddedFile, &opentype.FaceOptions{
-		Size:    24,
-		DPI:     dpi,
-		Hinting: font.HintingVertical,
-	})
-
-	mplusHudFont, _ = opentype.NewFace(fontEmbeddedFile, &opentype.FaceOptions{
-		Size:    8,
-		DPI:     dpi,
-		Hinting: font.HintingVertical,
-	})
-
-}
-
 func main() {
 
-	helloEmbeddedFile = string(loadStaticResource("assets/texts/hello.txt"))
-	otherEmbeddedFile = string(loadStaticResource("assets/texts/other.txt"))
+	helloEmbeddedFile = string(loadStaticResource(assets, "assets/texts/hello.txt"))
+	otherEmbeddedFile = string(loadStaticResource(assets, "assets/texts/other.txt"))
 	imageEmbeddedFile, _, _ = ebitenutil.NewImageFromFileSystem(assets,"assets/img/fuel.png")
 	loadFonts()
 	loadSounds()
