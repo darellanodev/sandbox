@@ -1,9 +1,8 @@
-module github.com/darellanodev/go-test-embed
+module github.com/darellanodev/sandbox-go-ebitengine-01-embed
 
 go 1.20
 
 require (
-	github.com/hajimehoshi/ebiten v1.12.12
 	github.com/hajimehoshi/ebiten/v2 v2.6.3
 	golang.org/x/image v0.12.0
 )
@@ -11,7 +10,6 @@ require (
 require (
 	github.com/ebitengine/oto/v3 v3.1.0 // indirect
 	github.com/ebitengine/purego v0.5.0 // indirect
-	github.com/hajimehoshi/oto v0.6.8 // indirect
 	github.com/jezek/xgb v1.1.0 // indirect
 	golang.org/x/exp/shiny v0.0.0-20230817173708-d852ddb80c63 // indirect
 	golang.org/x/mobile v0.0.0-20230922142353-e2f452493d57 // indirect
