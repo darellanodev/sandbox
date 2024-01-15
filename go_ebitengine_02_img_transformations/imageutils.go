@@ -4,6 +4,7 @@ import (
 	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/colorm"
 )
 
 func getImageCenter(img *ebiten.Image) (float64, float64) {
@@ -27,6 +28,17 @@ func drawRotateImage(screen *ebiten.Image, img *ebiten.Image, posX float64, posY
 
 	op.GeoM.Translate(posX, posY)
 	screen.DrawImage(img, op)
+}
+
+func drawWhiteImage(screen *ebiten.Image, img *ebiten.Image, posX float64, posY float64) {
+
+	op := &colorm.DrawImageOptions{}
+	cm := colorm.ColorM{}
+	cm.Translate(1.0, 1.0, 1.0, 0.0)
+
+	op.GeoM.Translate(posX, posY)
+
+	colorm.DrawImage(screen, img, cm, op)
 }
 
 func drawNormalImage(screen *ebiten.Image, img *ebiten.Image, posX float64, posY float64) {

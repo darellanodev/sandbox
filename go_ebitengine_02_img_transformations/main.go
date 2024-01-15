@@ -14,7 +14,7 @@ const (
 	appWidth = 640
 	appHeight = 480
 
-	offsetY = 100
+	offsetY = 70
 )
 
 //go:embed assets
@@ -26,6 +26,7 @@ var (
 	imagePosY  float64
 	imageWidth float64
 	degrees	   float64
+	newOffsetY float64
 )
 
 type Game struct{}
@@ -47,15 +48,25 @@ func (g *Game) Update() error {
 	return nil
 }
 
-
+func getY(row int, initialY float64, offset float64) float64 {
+	return initialY + (offset * float64(row))
+}
 
 func (g *Game) Draw(screen *ebiten.Image) {
 
 	ebitenutil.DebugPrint(screen, strconv.Itoa(int(imagePosX)) + ", " + strconv.Itoa(int(imagePosY)))
 
-	drawNormalImage(screen, imageEmbeddedFile, imagePosX, imagePosY)
-	drawHorizontalFlippedImage(screen, imageEmbeddedFile, imageWidth, imagePosX, imagePosY + offsetY)
-	drawRotateImage(screen, imageEmbeddedFile, imagePosX, imagePosY + offsetY * 2, degrees)
+	newOffsetY = getY(1, imagePosY, offsetY)
+	drawNormalImage(screen, imageEmbeddedFile, imagePosX, newOffsetY)
+
+	newOffsetY = getY(2, imagePosY, offsetY)
+	drawHorizontalFlippedImage(screen, imageEmbeddedFile, imageWidth, imagePosX, newOffsetY)
+
+	newOffsetY = getY(3, imagePosY, offsetY)
+	drawRotateImage(screen, imageEmbeddedFile, imagePosX, newOffsetY, degrees)
+
+	newOffsetY = getY(4, imagePosY, offsetY)
+	drawWhiteImage(screen, imageEmbeddedFile, imagePosX, newOffsetY)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
