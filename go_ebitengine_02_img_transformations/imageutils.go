@@ -30,6 +30,17 @@ func drawRotateImage(screen *ebiten.Image, img *ebiten.Image, posX float64, posY
 	screen.DrawImage(img, op)
 }
 
+func drawAlphaImage(screen *ebiten.Image, img *ebiten.Image, posX float64, posY float64, alpha float64) {
+
+	op := &colorm.DrawImageOptions{}
+	cm := colorm.ColorM{}
+	cm.Scale(1.0, 1.0, 1.0, alpha)
+
+	op.GeoM.Translate(posX, posY)
+
+	colorm.DrawImage(screen, img, cm, op)
+}
+
 func drawWhiteImage(screen *ebiten.Image, img *ebiten.Image, posX float64, posY float64) {
 
 	op := &colorm.DrawImageOptions{}

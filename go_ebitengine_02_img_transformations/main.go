@@ -27,6 +27,7 @@ var (
 	imageWidth float64
 	degrees	   float64
 	newOffsetY float64
+	alpha	   float64
 )
 
 type Game struct{}
@@ -43,6 +44,12 @@ func (g *Game) Update() error {
 		degrees++
 	} else {
 		degrees = 0
+	}
+
+	if alpha > 0 {
+		alpha -= 0.01
+	} else {
+		alpha = 1
 	}
 
 	return nil
@@ -67,6 +74,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	newOffsetY = getY(4, imagePosY, offsetY)
 	drawWhiteImage(screen, imageEmbeddedFile, imagePosX, newOffsetY)
+
+	newOffsetY = getY(5, imagePosY, offsetY)
+	drawAlphaImage(screen, imageEmbeddedFile, imagePosX, newOffsetY, alpha)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
@@ -82,6 +92,7 @@ func main() {
 	imagePosY  = 0
 	imageWidth = 32
 	degrees    = 0
+	alpha	   = 1
 
 	ebiten.SetWindowSize(appWidth, appHeight) // Note that the values are equals to layout function
 	ebiten.SetWindowTitle("flip image")
