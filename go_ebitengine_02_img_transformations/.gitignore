@@ -1,2 +1,2 @@
-build_web/embedtest.wasm
+build_web/*.wasm
 build_web/wasm_exec.js
