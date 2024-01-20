@@ -15,7 +15,7 @@ type Object struct {
 	alpha	float64
 }
 
-func NewObject(posY float64) Object {
+func NewObject(posY float64, image *ebiten.Image) Object {
 
 	return Object{
 		x: 0,
