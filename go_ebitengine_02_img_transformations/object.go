@@ -15,24 +15,17 @@ type Object struct {
 	alpha	float64
 }
 
-func NewObject(posY float64, image *ebiten.Image) Object {
-
-	return Object{
-		x: 0,
-		y: posY,
-		op: &colorm.DrawImageOptions{},
-		cm: colorm.ColorM{},
-		img: image,
-		degrees: 0,
-		alpha: 1,
-	}
-}
 
 func (o *Object) MoveTo(x float64, y float64) {
 	o.x = x
 	o.y = y
 	o.op = moveImg(o.x, o.y, o.op)
 }
+
+func (o *Object) MoveToX(x float64) {
+	o.MoveTo(x, o.y)
+}
+
 
 func (o *Object) Rotate(degrees float64) {
 	o.degrees = degrees

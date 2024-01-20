@@ -7,12 +7,13 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
+
 type Game struct {
-	image   *ebiten.Image
-	alpha   float64
-	degrees   float64
-	posX    float64
-	objects []Object
+	alpha         float64
+	degrees       float64
+	posX    	  float64
+	fuelObjects   []Fuel
+	playerObjects []Player
 }
 
 func NewGame() *Game {
@@ -23,46 +24,6 @@ func NewGame() *Game {
 	}
 
 	return g
-}
-
-func (g *Game) applyMovement(obj Object, posX float64) Object {
-	obj.Reset()
-	obj.MoveTo(posX, obj.y)
-
-	return obj
-}
-
-func (g *Game) applyMovementFlipX(obj Object, posX float64) Object {
-	obj.Reset()
-	obj.FlipX() // the order is important. If you want to flip the object do it before moving it.
-	obj.MoveTo(posX, obj.y)
-
-	return obj
-}
-
-func (g *Game) applyMovementAlpha(obj Object, posX float64) Object {
-	obj.Reset()
-	obj.MoveTo(posX, obj.y)
-	obj.Alpha(g.alpha)
-
-	return obj
-}
-
-func (g *Game) applyMovementRotationAlpha(obj Object, posX float64) Object {
-	obj.Reset()
-	obj.Rotate(g.degrees) // the order is important. If you want to rotate the object do it before moving it.
-	obj.MoveTo(posX, obj.y)
-	obj.Alpha(g.alpha)
-
-	return obj
-}
-
-func (g *Game) applyMovementWhite(obj Object, posX float64) Object {
-	obj.Reset()
-	obj.White()
-	obj.MoveTo(posX, obj.y)
-
-	return obj
 }
 
 func (g *Game) updatePosX() {
@@ -95,11 +56,17 @@ func (g *Game) Update() error {
 	g.updateDegrees()
 	g.updateAlpha()
 	
-	g.objects[0] = g.applyMovement(g.objects[0], g.posX)
-	g.objects[1] = g.applyMovementFlipX(g.objects[1], g.posX)
-	g.objects[2] = g.applyMovementAlpha(g.objects[2], g.posX)
-	g.objects[3] = g.applyMovementRotationAlpha(g.objects[3], g.posX)
-	g.objects[4] = g.applyMovementWhite(g.objects[4], g.posX)
+	g.fuelObjects[0] = ApplyMovement(g.fuelObjects[0], g.posX)
+	g.fuelObjects[1] = ApplyMovementFlipX(g.fuelObjects[1], g.posX)
+	g.fuelObjects[2] = ApplyMovementAlpha(g.fuelObjects[2], g.posX, g.alpha)
+	g.fuelObjects[3] = ApplyMovementRotationAlpha(g.fuelObjects[3], g.posX, g.alpha, g.degrees)
+	g.fuelObjects[4] = ApplyMovementWhite(g.fuelObjects[4], g.posX)
+	
+	g.playerObjects[0] = ApplyMovement(g.playerObjects[0], g.posX + 200)
+	g.playerObjects[1] = ApplyMovementFlipX(g.playerObjects[1], g.posX + 200)
+	g.playerObjects[2] = ApplyMovementAlpha(g.playerObjects[2], g.posX + 200, g.alpha)
+	g.playerObjects[3] = ApplyMovementRotationAlpha(g.playerObjects[3], g.posX + 200, g.alpha, g.degrees)
+	g.playerObjects[4] = ApplyMovementWhite(g.playerObjects[4], g.posX + 200)
 
 	return nil
 }
@@ -109,7 +76,11 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	ebitenutil.DebugPrint(screen, strconv.Itoa(int(g.posX)))
 
-	for _, object := range g.objects {
+	for _, object := range g.fuelObjects {
+		object.Draw(screen)
+	} 
+
+	for _, object := range g.playerObjects {
 		object.Draw(screen)
 	} 
 	
@@ -122,14 +93,23 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 
 func (g *Game) Init() error {
 	
-	g.image, _, _ = ebitenutil.NewImageFromFileSystem(assets, "assets/img/fuel.png")
+	fuelImage, _, _ := ebitenutil.NewImageFromFileSystem(assets, "assets/img/fuel.png")
+	playerImage, _, _ := ebitenutil.NewImageFromFileSystem(assets, "assets/img/player_right.png")
 
-	g.objects = append(g.objects,
-		NewObject(50, g.image),
-		NewObject(100, g.image),
-		NewObject(150, g.image),
-		NewObject(200, g.image),
-		NewObject(250, g.image),
+	g.fuelObjects = append(g.fuelObjects,
+		NewFuel(65, fuelImage),
+		NewFuel(65*2, fuelImage),
+		NewFuel(65*3, fuelImage),
+		NewFuel(65*4, fuelImage),
+		NewFuel(65*5, fuelImage),
+	)
+
+	g.playerObjects = append(g.playerObjects,
+		NewPlayer(65, playerImage),
+		NewPlayer(65*2, playerImage),
+		NewPlayer(65*3, playerImage),
+		NewPlayer(65*4, playerImage),
+		NewPlayer(65*5, playerImage),
 	)
 
 	return nil
