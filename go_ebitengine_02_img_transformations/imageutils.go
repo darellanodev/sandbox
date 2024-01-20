@@ -17,7 +17,7 @@ func getImageCenter(img *ebiten.Image) (float64, float64) {
 	return halfW, halfH 
 }
 
-func rotateImg(img *ebiten.Image, degrees float64, op *colorm.DrawImageOptions) *colorm.DrawImageOptions {
+func RotateImg(img *ebiten.Image, degrees float64, op *colorm.DrawImageOptions) *colorm.DrawImageOptions {
 	halfW, halfH := getImageCenter(img)
 	
 	op.GeoM.Translate(-halfW, -halfH)
@@ -27,20 +27,19 @@ func rotateImg(img *ebiten.Image, degrees float64, op *colorm.DrawImageOptions) 
 	return op
 }
 
-func moveImg(posX float64, posY float64, op *colorm.DrawImageOptions) *colorm.DrawImageOptions {
+func MoveImg(posX float64, posY float64, op *colorm.DrawImageOptions) *colorm.DrawImageOptions {
 	op.GeoM.Translate(posX, posY)
 	return op
 }
 
-
-func alphaImg(op *colorm.DrawImageOptions, cm colorm.ColorM, alpha float64) colorm.ColorM {
+func AlphaImg(op *colorm.DrawImageOptions, cm colorm.ColorM, alpha float64) colorm.ColorM {
 
 	cm.Scale(1.0, 1.0, 1.0, alpha)
 
 	return cm
 }
 
-func flipXImg(img *ebiten.Image, op *colorm.DrawImageOptions) *colorm.DrawImageOptions {
+func FlipXImg(img *ebiten.Image, op *colorm.DrawImageOptions) *colorm.DrawImageOptions {
 
 	width := float64(img.Bounds().Dx())
 
@@ -50,7 +49,7 @@ func flipXImg(img *ebiten.Image, op *colorm.DrawImageOptions) *colorm.DrawImageO
 	return op
 }
 
-func whiteImg(op *colorm.DrawImageOptions, cm colorm.ColorM) colorm.ColorM {
+func WhiteImg(op *colorm.DrawImageOptions, cm colorm.ColorM) colorm.ColorM {
 
 	cm.Translate(1.0, 1.0, 1.0, 0.0)
 

@@ -19,7 +19,7 @@ type Object struct {
 func (o *Object) MoveTo(x float64, y float64) {
 	o.x = x
 	o.y = y
-	o.op = moveImg(o.x, o.y, o.op)
+	o.op = MoveImg(o.x, o.y, o.op)
 }
 
 func (o *Object) MoveToX(x float64) {
@@ -29,22 +29,17 @@ func (o *Object) MoveToX(x float64) {
 
 func (o *Object) Rotate(degrees float64) {
 	o.degrees = degrees
-	o.op = rotateImg(o.img, o.degrees, o.op)
+	o.op = RotateImg(o.img, o.degrees, o.op)
 }
 
 func (o *Object) Alpha(alpha float64) {
 	o.alpha = alpha
-	o.cm = alphaImg(o.op, o.cm, o.alpha)
+	o.cm = AlphaImg(o.op, o.cm, o.alpha)
 }
 
 func (o *Object) White() {
-	o.cm = whiteImg(o.op, o.cm)
+	o.cm = WhiteImg(o.op, o.cm)
 }
-
-
-// func (o *Object) Update() {
-	
-// }
 
 func (o *Object) Reset() {
 	o.op = &colorm.DrawImageOptions{}
@@ -52,7 +47,7 @@ func (o *Object) Reset() {
 }
 
 func (o *Object) FlipX() {
-	o.op = flipXImg(o.img, o.op)
+	o.op = FlipXImg(o.img, o.op)
 }
 
 
