@@ -17,51 +17,42 @@ func getImageCenter(img *ebiten.Image) (float64, float64) {
 	return halfW, halfH 
 }
 
-func drawRotateImage(screen *ebiten.Image, img *ebiten.Image, posX float64, posY float64, degrees float64) {
-	
+func rotateImg(img *ebiten.Image, degrees float64, op *colorm.DrawImageOptions) *colorm.DrawImageOptions {
 	halfW, halfH := getImageCenter(img)
 	
-	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(-halfW, -halfH)
 	op.GeoM.Rotate(degrees * math.Pi / 180.0)
 	op.GeoM.Translate(halfW, halfH)
 
-	op.GeoM.Translate(posX, posY)
-	screen.DrawImage(img, op)
+	return op
 }
 
-func drawAlphaImage(screen *ebiten.Image, img *ebiten.Image, posX float64, posY float64, alpha float64) {
+func moveImg(posX float64, posY float64, op *colorm.DrawImageOptions) *colorm.DrawImageOptions {
+	op.GeoM.Translate(posX, posY)
+	return op
+}
 
-	op := &colorm.DrawImageOptions{}
-	cm := colorm.ColorM{}
+
+func alphaImg(op *colorm.DrawImageOptions, cm colorm.ColorM, alpha float64) colorm.ColorM {
+
 	cm.Scale(1.0, 1.0, 1.0, alpha)
 
-	op.GeoM.Translate(posX, posY)
-
-	colorm.DrawImage(screen, img, cm, op)
+	return cm
 }
 
-func drawWhiteImage(screen *ebiten.Image, img *ebiten.Image, posX float64, posY float64) {
+func flipXImg(img *ebiten.Image, op *colorm.DrawImageOptions) *colorm.DrawImageOptions {
 
-	op := &colorm.DrawImageOptions{}
-	cm := colorm.ColorM{}
+	width := float64(img.Bounds().Dx())
+
+	op.GeoM.Translate(-width, 0)
+	op.GeoM.Scale(-1, 1)
+	
+	return op
+}
+
+func whiteImg(op *colorm.DrawImageOptions, cm colorm.ColorM) colorm.ColorM {
+
 	cm.Translate(1.0, 1.0, 1.0, 0.0)
 
-	op.GeoM.Translate(posX, posY)
-
-	colorm.DrawImage(screen, img, cm, op)
-}
-
-func drawNormalImage(screen *ebiten.Image, img *ebiten.Image, posX float64, posY float64) {
-	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(1, 1)
-	op.GeoM.Translate(posX, posY)
-	screen.DrawImage(img, op)
-}
-
-func drawHorizontalFlippedImage(screen *ebiten.Image, img *ebiten.Image, imageWidth float64, posX float64, posY float64) {
-	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(-1, 1)
-	op.GeoM.Translate(posX+imageWidth, posY)
-	screen.DrawImage(img, op)
+	return cm
 }
