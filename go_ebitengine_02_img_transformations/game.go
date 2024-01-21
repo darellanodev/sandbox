@@ -1,10 +1,14 @@
 package main
 
 import (
+	"image/color"
 	"strconv"
 
+	"github.com/darellanodev/sandbox-go-ebitengine-02-img-transformations/lib"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/text"
+	"golang.org/x/image/font"
 )
 
 
@@ -14,6 +18,7 @@ type Game struct {
 	posX    	  float64
 	fuelObjects   []Fuel
 	playerObjects []Player
+	font		  font.Face
 }
 
 func NewGame() *Game {
@@ -75,6 +80,8 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 
 	ebitenutil.DebugPrint(screen, strconv.Itoa(int(g.posX)))
+	text.Draw(screen, "image transformations", g.font, 50, 30, color.White)
+
 
 	for _, object := range g.fuelObjects {
 		object.Draw(screen)
@@ -93,25 +100,20 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 
 func (g *Game) Init() error {
 	
-	fuelImage, _, _ := ebitenutil.NewImageFromFileSystem(assets, "assets/img/fuel.png")
-	playerImage, _, _ := ebitenutil.NewImageFromFileSystem(assets, "assets/img/player_right.png")
+	fuelImage := lib.LoadImage(assets, "assets/img/fuel.png")
+	playerImage := lib.LoadImage(assets, "assets/img/player_right.png")
+	g.font = lib.LoadFont(assets, "assets/fonts/pressstart2p.ttf")
 
-	g.fuelObjects = append(g.fuelObjects,
-		NewFuel(65, fuelImage),
-		NewFuel(65*2, fuelImage),
-		NewFuel(65*3, fuelImage),
-		NewFuel(65*4, fuelImage),
-		NewFuel(65*5, fuelImage),
-	)
+	totalObjects := 5
+	
+	for i := 0; i < totalObjects; i++ {
+		g.fuelObjects = append(g.fuelObjects, NewFuel(float64(65*(i+1)), fuelImage))
+	}
 
-	g.playerObjects = append(g.playerObjects,
-		NewPlayer(65, playerImage),
-		NewPlayer(65*2, playerImage),
-		NewPlayer(65*3, playerImage),
-		NewPlayer(65*4, playerImage),
-		NewPlayer(65*5, playerImage),
-	)
-
+	for i := 0; i < totalObjects; i++ {
+		g.playerObjects = append(g.playerObjects, NewPlayer(float64(65*(i+1)), playerImage))
+	}
+	
 	return nil
 }
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/darellanodev/sandbox-go-ebitengine-02-img-transformations/lib"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/colorm"
 )
@@ -15,30 +16,28 @@ type Object struct {
 	alpha	float64
 }
 
-
 func (o *Object) MoveTo(x float64, y float64) {
 	o.x = x
 	o.y = y
-	o.op = MoveImg(o.x, o.y, o.op)
+	o.op = lib.MoveImg(o.x, o.y, o.op)
 }
 
 func (o *Object) MoveToX(x float64) {
 	o.MoveTo(x, o.y)
 }
 
-
 func (o *Object) Rotate(degrees float64) {
 	o.degrees = degrees
-	o.op = RotateImg(o.img, o.degrees, o.op)
+	o.op = lib.RotateImg(o.img, o.degrees, o.op)
 }
 
 func (o *Object) Alpha(alpha float64) {
 	o.alpha = alpha
-	o.cm = AlphaImg(o.op, o.cm, o.alpha)
+	o.cm = lib.AlphaImg(o.op, o.cm, o.alpha)
 }
 
 func (o *Object) White() {
-	o.cm = WhiteImg(o.op, o.cm)
+	o.cm = lib.WhiteImg(o.op, o.cm)
 }
 
 func (o *Object) Reset() {
@@ -47,7 +46,7 @@ func (o *Object) Reset() {
 }
 
 func (o *Object) FlipX() {
-	o.op = FlipXImg(o.img, o.op)
+	o.op = lib.FlipXImg(o.img, o.op)
 }
 
 

@@ -1,10 +1,13 @@
-package main
+package lib
 
 import (
+	"embed"
+	"log"
 	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/colorm"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 func getImageCenter(img *ebiten.Image) (float64, float64) {
@@ -54,4 +57,14 @@ func WhiteImg(op *colorm.DrawImageOptions, cm colorm.ColorM) colorm.ColorM {
 	cm.Translate(1.0, 1.0, 1.0, 0.0)
 
 	return cm
+}
+
+func LoadImage(filesystem embed.FS , path string) *ebiten.Image {
+	img, _, err := ebitenutil.NewImageFromFileSystem(filesystem, path)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return img
 }
