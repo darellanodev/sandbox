@@ -13,29 +13,36 @@ import (
 
 
 type Game struct {
-	alpha         float64
-	degrees       float64
-	posX    	  float64
-	fuelObjects   []Fuel
-	playerObjects []Player
-	font		  font.Face
+	alpha          float64
+	degrees        float64
+	fuelObjectsX   float64
+	playerObjectsX float64
+	fuelObjects    []Fuel
+	playerObjects  []Player
+	font		   font.Face
 }
 
 func NewGame() *Game {
 
 	g := &Game{
 		alpha: 0,
-		posX:  0,
+		fuelObjectsX:  0,
+		playerObjectsX:  200,
 	}
 
 	return g
 }
 
 func (g *Game) updatePosX() {
-	if g.posX < appWidth {
-		g.posX++
+	if g.fuelObjectsX < appWidth {
+		g.fuelObjectsX++
 	} else {
-		g.posX = 0
+		g.fuelObjectsX = 0
+	}
+	if g.playerObjectsX < appWidth {
+		g.playerObjectsX++
+	} else {
+		g.playerObjectsX = 0
 	}
 }
 
@@ -60,18 +67,19 @@ func (g *Game) Update() error {
 	g.updatePosX()
 	g.updateDegrees()
 	g.updateAlpha()
+
 	
-	g.fuelObjects[0] = ApplyMovement(g.fuelObjects[0], g.posX)
-	g.fuelObjects[1] = ApplyMovementFlipX(g.fuelObjects[1], g.posX)
-	g.fuelObjects[2] = ApplyMovementAlpha(g.fuelObjects[2], g.posX, g.alpha)
-	g.fuelObjects[3] = ApplyMovementRotationAlpha(g.fuelObjects[3], g.posX, g.alpha, g.degrees)
-	g.fuelObjects[4] = ApplyMovementWhite(g.fuelObjects[4], g.posX)
+	g.fuelObjects[0] = ApplyMovement(g.fuelObjects[0], g.fuelObjectsX)
+	g.fuelObjects[1] = ApplyMovementFlipX(g.fuelObjects[1], g.fuelObjectsX)
+	g.fuelObjects[2] = ApplyMovementAlpha(g.fuelObjects[2], g.fuelObjectsX, g.alpha)
+	g.fuelObjects[3] = ApplyMovementRotationAlpha(g.fuelObjects[3], g.fuelObjectsX, g.alpha, g.degrees)
+	g.fuelObjects[4] = ApplyMovementWhite(g.fuelObjects[4], g.fuelObjectsX)
 	
-	g.playerObjects[0] = ApplyMovement(g.playerObjects[0], g.posX + 200)
-	g.playerObjects[1] = ApplyMovementFlipX(g.playerObjects[1], g.posX + 200)
-	g.playerObjects[2] = ApplyMovementAlpha(g.playerObjects[2], g.posX + 200, g.alpha)
-	g.playerObjects[3] = ApplyMovementRotationAlpha(g.playerObjects[3], g.posX + 200, g.alpha, g.degrees)
-	g.playerObjects[4] = ApplyMovementWhite(g.playerObjects[4], g.posX + 200)
+	g.playerObjects[0] = ApplyMovement(g.playerObjects[0], g.playerObjectsX)
+	g.playerObjects[1] = ApplyMovementFlipX(g.playerObjects[1], g.playerObjectsX)
+	g.playerObjects[2] = ApplyMovementAlpha(g.playerObjects[2], g.playerObjectsX, g.alpha)
+	g.playerObjects[3] = ApplyMovementRotationAlpha(g.playerObjects[3], g.playerObjectsX, g.alpha, g.degrees)
+	g.playerObjects[4] = ApplyMovementWhite(g.playerObjects[4], g.playerObjectsX)
 
 	return nil
 }
@@ -79,7 +87,7 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 
-	ebitenutil.DebugPrint(screen, strconv.Itoa(int(g.posX)))
+	ebitenutil.DebugPrint(screen, strconv.Itoa(int(g.fuelObjectsX)))
 	text.Draw(screen, "image transformations", g.font, 50, 30, color.White)
 
 

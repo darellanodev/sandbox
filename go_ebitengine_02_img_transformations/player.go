@@ -13,7 +13,7 @@ func NewPlayer(posY float64, image *ebiten.Image) Player {
 
 	return Player {
 		&Object{
-			x:       0,
+			x:       200,
 			y:       posY,
 			op:      &colorm.DrawImageOptions{},
 			cm:      colorm.ColorM{},
