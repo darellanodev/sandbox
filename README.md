@@ -1,6 +1,6 @@
 # Sandbox
 
-This is a repository with little examples that I made to help me to do small things to incorporate them in my other personal projects
+This repository contains small examples I've created to help me experiment with and integrate simple features into my other personal projects.
 
 ## Github repository
 
