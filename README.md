@@ -6,13 +6,16 @@ This is a repository with little examples that I made to help me to do small thi
 
 - <https://github.com/darellanodev/sandbox>
 
-## How to use
+### go-ebitengine directory
 
-- Clone the repository
-- Open the desired subfolder into VSCode, for example `go_ebitengine_01_embed`
-- Run with `go run .`
+This directory contains examples using the Go programming language with the Ebitengine library. It includes:
 
-## List
+- `embed`: Demonstrates how to embed fonts (.ttf), sounds (.wav), images (.png), and text files (.txt) for use with Go and Ebitengine. This is especially important when building for the web, as loading external files may cause errors. Embedding resources is also a more efficient approach.
 
-- `go_ebitengine_01_embed`: It shows how to embed fonts (.ttf), sounds (.wav), images (.png), and text files (.txt) to use with go and ebitengine. Its important when building for web because I got errors when loading external files and also this embed mechanism is most efficient.
-- `go_ebitengine_02_flip_sprite`: It shows how to flip images, how to display the real sprite scale and understand coordinate system.
+- `img_transformations`: Demonstrates how to flip images, display sprites at their actual scale, and understand the coordinate system.
+
+### pygame-ce directory
+
+This directory contains examples using Python with the Pygame Community Edition library. It includes:
+
+- `particles`: Demonstrates a simple particle emission system. Move the mouse and click to stop the emission.
